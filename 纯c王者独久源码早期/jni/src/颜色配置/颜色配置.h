@@ -1,0 +1,166 @@
+#include <GLES2/gl2.h>
+#include <thread>
+#include <array>
+#include <android/native_window_jni.h>
+#include "imgui.h"
+#include "imgui_internal.h"
+//#include "../绘制函数/include.h"
+#include "tupianan.h"// H图片头文件
+#include "tupianac.h"
+#include "tupianav.h"
+ // ↓照片函数
+ImTextureID FloatBallwc;//主页/照片id
+ImTextureID FloatBallwv;//绘制
+ImTextureID FloatBallwt;//设置
+
+//图片的函数
+ImTextureID ImAgeHeadFile(const unsigned char *buf, int len)
+{
+	int w, h, n;
+	stbi_uc *data = stbi_png_load_from_memory(buf, len, &w, &h, &n, 0);
+	GLuint texture;
+	glGenTextures(1, &texture);
+	glEnable(GL_TEXTURE_2D);
+	glBindTexture(GL_TEXTURE_2D, texture);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	if (n == 3)
+	{
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, w, h, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+	}
+	else
+	{
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+	}
+	stbi_image_free(data);
+	ImTextureID image_id = texture;
+	return image_id;
+}
+
+   //加载图片
+void 添加选项照片(){
+	FloatBallwc = ImAgeHeadFile(主页, sizeof(主页));
+	FloatBallwv = ImAgeHeadFile(透视, sizeof(透视));
+	FloatBallwt = ImAgeHeadFile(设置, sizeof(设置));
+}
+
+void DrawLogo(ImTextureID ID,ImVec2 center, float size)
+{
+	ImGui::SetCursorPos({180, 180});
+	ImDrawList *draw_list = ImGui::GetWindowDrawList();
+	draw_list->AddImage(ID,{center.x - size / 1, center.y - size / 1},{center.x + size / 1, center.y + size / 1});
+}
+
+
+void ImGui::白色(ImGuiStyle* dst)
+{
+    // 获取当前样式或指定的样式
+    ImGuiStyle* style = dst ? dst : &ImGui::GetStyle();
+    ImVec4* colors = style->Colors;
+    ImGui::GetStyle().WindowRounding = 10.f;//窗口圆角
+    ImGui::GetStyle().FrameRounding = 5.0f; // 按钮边框圆角半径为10.0f
+  
+
+    // 文本颜色
+    colors[ImGuiCol_Text] = ImVec4(0.00f, 0.00f, 0.00f, 1.00f); // 普通文本颜色
+
+    // 禁用文本颜色
+    colors[ImGuiCol_TextDisabled] = ImVec4(0.60f, 0.60f, 0.60f, 1.00f); // 禁用状态下的文本颜色
+
+    // 窗口背景颜色
+    colors[ImGuiCol_WindowBg] = ImVec4(0.94f, 0.94f, 0.94f, 1.00f); // 主窗口背景色
+
+    // 子窗口背景颜色
+    colors[ImGuiCol_ChildBg] = ImVec4(0.00f, 0.00f, 0.00f, 0.00f); // 子窗口背景色（透明）
+
+    // 弹出窗口背景颜色
+    colors[ImGuiCol_PopupBg] = ImVec4(1.00f, 1.00f, 1.00f, 0.98f); // 弹出窗口背景色
+
+    // 边框颜色
+    colors[ImGuiCol_Border] = ImVec4(0.00f, 0.00f, 0.00f, 0.30f); // 边框颜色
+
+    // 边框阴影颜色
+    colors[ImGuiCol_BorderShadow] = ImVec4(0.00f, 0.00f, 0.00f, 0.00f); // 边框阴影颜色（无）
+
+    // 框架背景颜色
+    colors[ImGuiCol_FrameBg] = ImVec4(1.00f, 1.00f, 1.00f, 1.00f); // 框架背景色
+
+    // 框架背景悬停颜色
+    colors[ImGuiCol_FrameBgHovered] = ImVec4(0.26f, 0.59f, 0.98f, 0.40f); // 框架背景悬停色
+
+    // 框架背景激活颜色
+    colors[ImGuiCol_FrameBgActive] = ImVec4(0.26f, 0.59f, 0.98f, 0.67f); // 框架背景激活色
+
+    // 标题背景颜色
+    colors[ImGuiCol_TitleBg] = ImVec4(0.96f, 0.96f, 0.96f, 1.00f); // 标题栏背景色
+
+    // 激活标题背景颜色
+    colors[ImGuiCol_TitleBgActive] = ImVec4(0.82f, 0.82f, 0.82f, 1.00f); // 激活状态下的标题栏背景色
+
+    // 折叠标题背景颜色
+    colors[ImGuiCol_TitleBgCollapsed] = ImVec4(1.00f, 1.00f, 1.00f, 0.51f); // 折叠状态下的标题栏背景色
+
+    // 菜单栏背景颜色
+    colors[ImGuiCol_MenuBarBg] = ImVec4(0.86f, 0.86f, 0.86f, 1.00f); // 菜单栏背景色
+
+    // 滚动条背景颜色
+    colors[ImGuiCol_ScrollbarBg] = ImVec4(0.98f, 0.98f, 0.98f, 0.53f); // 滚动条背景色
+
+    // 滚动条抓取颜色
+    colors[ImGuiCol_ScrollbarGrab] = ImVec4(0.69f, 0.69f, 0.69f, 0.80f); // 滚动条抓取区域颜色
+
+    // 滚动条抓取悬停颜色
+    colors[ImGuiCol_ScrollbarGrabHovered] = ImVec4(0.49f, 0.49f, 0.49f, 0.80f); // 滚动条抓取区域悬停颜色
+
+    // 滚动条抓取激活颜色
+    colors[ImGuiCol_ScrollbarGrabActive] = ImVec4(0.49f, 0.49f, 0.49f, 1.00f); // 滚动条抓取区域激活颜色
+
+    // 检查框颜色
+    colors[ImGuiCol_CheckMark] = ImVec4(0.26f, 0.59f, 0.98f, 1.00f); // 检查框颜色
+
+    // 滑块抓取颜色
+    colors[ImGuiCol_SliderGrab] = ImVec4(0.26f, 0.59f, 0.98f, 0.78f); // 滑块抓取区域颜色
+
+    // 滑块抓取激活颜色
+    colors[ImGuiCol_SliderGrabActive] = ImVec4(0.46f, 0.54f, 0.80f, 0.60f); // 滑块抓取区域激活颜色
+
+    // 按钮颜色
+    colors[ImGuiCol_Button] = ImVec4(0.1f, 0.01f, 0.02f, 0.02f); // 按钮颜色
+
+    // 按钮悬停颜色
+    colors[ImGuiCol_ButtonHovered] = ImVec4(0.7f, 0.7f, 0.7f, 0.7f); // 按钮悬停颜色
+
+    // 按钮激活颜色
+    colors[ImGuiCol_ButtonActive] = ImVec4(0.7f, 0.7f, 0.7f, 0.7f); // 按钮激活颜色
+
+    // 标题颜色
+    colors[ImGuiCol_Header] = ImVec4(0.26f, 0.59f, 0.98f, 0.31f); // 标题颜色
+
+    // 标题悬停颜色
+    colors[ImGuiCol_HeaderHovered] = ImVec4(0.26f, 0.59f, 0.98f, 0.80f); // 标题悬停颜色
+
+    // 标题激活颜色
+    colors[ImGuiCol_HeaderActive] = ImVec4(0.26f, 0.59f, 0.98f, 1.00f); // 标题激活颜色
+
+    // 分隔线颜色
+    colors[ImGuiCol_Separator] = ImVec4(0.39f, 0.39f, 0.39f, 0.62f); // 分隔线颜色
+
+    // 分隔线悬停颜色
+    colors[ImGuiCol_SeparatorHovered] = ImVec4(0.14f, 0.44f, 0.80f, 0.78f); // 分隔线悬停颜色
+
+    // 分隔线激活颜色
+    colors[ImGuiCol_SeparatorActive] = ImVec4(0.14f, 0.44f, 0.80f, 1.00f); // 分隔线激活颜色
+
+    // 调整大小手柄颜色
+    colors[ImGuiCol_ResizeGrip] = ImVec4(0.35f, 0.35f, 0.35f, 0.17f); // 调整大小手柄颜色
+
+    // 调整大小手柄悬停颜色
+    colors[ImGuiCol_ResizeGripHovered] = ImVec4(0.26f, 0.59f, 0.98f, 0.67f); // 调整大小手柄悬停颜色
+
+    // 调整大小手柄激活颜色
+    colors[ImGuiCol_ResizeGripActive] = ImVec4(0.26f, 0.59f, 0.98f, 0.95f); // 调整大小手柄激活颜色
+
+    //
+}
