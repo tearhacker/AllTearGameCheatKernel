@@ -1,0 +1,46 @@
+/*
+    By 开源 公益分享
+   搜集各个公益文件分享
+    更多公益开源 文件 @BYYXnb
+    TG @BYYXnb QQ群 427975011
+    
+源码捐赠链接
+https://v.youxi186.com/shop/YIZ6ZA6X
+
+源码捐赠地址2：
+https://shop.pp13.cn/shop/byyxnb
+
+公益网盘资源分享
+https://www.123865.com/s/NxyZVv-K44U3?提取码：QWT6
+
+QQ群过验证[有的文件需要]
+https://www.123865.com/s/f4A7Vv-Pqc0A?提取码：9IVI
+
+由于易支付漏洞 如果进不去
+如您需拿卡 点击 联系我
+赞助链接已重新更新 
+
+〖如果你点开提示 站点停止运行或者进不去，那么解决办法有两个
+
+1.复制链接去别的浏览器打开
+2.清除你浏览器的数据即可
+*/
+#include <string>
+#include <vector>
+#include <sstream>
+#include <iomanip>
+#include "md5.h"
+
+std::string md5(const std::string& input) {
+    unsigned char digest[16];
+    MD5_CTX md5c;
+    MD5Init(&md5c);
+    MD5Update(&md5c, reinterpret_cast<unsigned char*>(const_cast<char*>(input.c_str())), input.length());
+    MD5Final(&md5c, digest);
+
+    std::ostringstream oss;
+    for (int i = 0; i < 16; ++i) {
+        oss << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(digest[i]);
+    }
+    return oss.str();
+}

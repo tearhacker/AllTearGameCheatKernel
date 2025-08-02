@@ -1,0 +1,41 @@
+数据时间2025.8.2
+   绘图.Module = GetModuleBase纯C(pid,"libil2cpp.so");  (XA头)
+                    绘图.Modulecdhead = GetModuleBase纯C(pid,"libil2cpp.so")+0xB58A000;   //还必须CD模块头
+             
+     矩阵地址   libil2cpp(CD头) + 0xD7A1C0) + 0x480) + 0xA0) + 0x10) + 0x10) +0xC8;  
+    
+
+
+   绘图.Arrayaddr =绘图.il2cppbsscf (CB内存头)+ 0x4B018) + 0xA0) + 0x0) + 0x30) +0x28) + 0x70) + 0x10;
+
+ 绘图.人物数组 = driver->read<uint64_t>(绘图.Arrayaddr + 0x0) +0x20;
+
+  绘图.世界数量 =driver->read<int>(绘图.Arrayaddr +0x8);
+   
+坐标  0x400, 0X20, 0x10   指针后 偏移 0x324
+
+自身判断 0x428, 0x40
+
+队伍  0x428, 0x110
+
+getutf8名称 0x428, 0x70, 0x14
+
+hp  0x428, 0x12c   /  0x130
+
+
+
+开源绘制数据  部分源码开源   虽然属于远古时代 但是绘制触摸都可以正常使用
+
+完整绘制数据 CF   填写完毕后 自瞄绘图都有效果
+
+@TearGame
+
+源码有个旧版本的  你们自己找找 
+
+
+ 
+
+   
+
+
+  

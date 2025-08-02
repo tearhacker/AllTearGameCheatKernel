@@ -1,0 +1,87 @@
+#ifndef NATIVESURFACE_DRAW_H
+#define NATIVESURFACE_DRAW_H
+
+#include <iostream>
+#include <thread>
+#include <chrono>
+#include <EGL/egl.h>
+#include <GLES/gl.h>
+#include <dlfcn.h>
+#include <unistd.h>
+#include <sys/mman.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <cstdio>
+#include <cstring>
+#include <cerrno>
+#include <android/native_window.h>
+#include "ANativeWindowCreator.h"
+
+#include "imgui.h"
+#include "imgui_internal.h"
+#include "imgui_impl_opengl3.h"
+#include "imgui_impl_android.h"
+#include "timer.h"
+#include <algorithm>
+#include "TouchHelperA.h"
+using namespace std;
+using namespace std::chrono_literals;
+
+
+extern bool g_Initialized;
+extern EGLDisplay display;
+extern EGLConfig config;
+extern EGLSurface surface;
+extern EGLContext context;
+extern ANativeWindow *native_window;
+
+
+// 视图XY
+extern int native_window_screen_x, native_window_screen_y;
+extern int screen_x, screen_y;
+// 屏幕信息
+extern android::ANativeWindowCreator::DisplayInfo displayInfo;
+// 绝对屏幕X _ Y
+extern int abs_ScreenX, abs_ScreenY;
+extern int screen_x, screen_y;
+
+extern void *handle;/*
+extern EGLDisplay display;
+extern EGLConfig config;
+extern EGLSurface surface;*/
+extern NativeWindowType native_window;
+extern NativeWindowType (*createNativeWindow)(const char *surface_name ,uint32_t screen_width ,uint32_t screen_height);
+extern EGLContext context;
+//extern android::ANativeWindowCreator::DisplayInfo displayInfo;
+struct Screen {
+    float ScreenX;
+    float ScreenY;
+};
+
+extern char Mes9[256];
+extern char Mes20[256];
+
+extern int FPS;
+extern float NumIo[50];
+extern timer FPS限制;
+extern float FPF显示;
+extern Screen full_screen;
+extern int Orientation;
+extern int screen_x, screen_y;
+extern int init_screen_x, init_screen_y;
+extern bool g_Initialized;
+string exec(string command);
+int init_egl(int _screen_x,int _screen_y, bool log = false);
+void screen_config();
+void screen_config2();
+void shutdown();
+void tick();
+void ImGui_init();
+void DrawPlayer(ImDrawList *Draw);
+void AimBotAuto(ImDrawList *Draw);
+void *AimCalcu();
+void Init_touch_config();
+int DrawInt();
+
+#endif
