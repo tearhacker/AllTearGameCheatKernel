@@ -1,0 +1,36 @@
+<?xml version="1" encoding="utf-8"?>
+<config>
+	<DEFAULT ct="2a55f9235523a08720bf617f0d30fbe6" probability="100" flag="1">
+		<file type=3 local="files/ob_x.zip" name="ob_x.zip" hash_type=1 probability="100" scale="1">
+			<A hash="A3B251CF"/>
+			<B hash="8EE6CAE0"/>
+		</file>
+		<file type=3 local="files/ob_cs2.zip" name="ob_cs2.zip" hash_type=1 probability="100" scale="1">
+			<A hash="2913D744"/>
+			<B hash="C8754256"/>
+		</file>
+		<file type=3 local="files/mrpcs_com.data" name="mrpcs_com.data" hash_type=1 probability="100" scale="1">
+			<A hash="DA41C26E"/>
+		</file>
+		<file type=3 local="files/comm.zip" name="comm.zip" hash_type=1 probability="100" scale="1">
+			<A hash="00000000"/>
+			<B hash="00000000"/>
+		</file>
+		<file name="mrpcs-android-1.gr_925.data" probability="100">
+			<A hash="FCF838D8"/>
+		</file>
+		<file name="mrpcs-android-l.gr_925.data" probability="100">
+			<A hash="D87A307D"/>
+		</file>
+	</DEFAULT>
+	<GAME hash_type=1 hash="23314218">
+		<file type=2 local="files/mrpcs.data" name="mrpcs.data" hash_type=1 probability="100" scale="1">
+			<A hash="443A289F"/>
+			<B hash="7B531C8A"/>
+		</file>
+		<file type=3 local="files/mrpcs_MVM.data" name="mrpcs_MVM.data" hash_type=1 probability="100" scale="1">
+			<A hash="20735A01"/>
+			<B hash="94F105D6"/>
+		</file>
+	</GAME>
+</config>

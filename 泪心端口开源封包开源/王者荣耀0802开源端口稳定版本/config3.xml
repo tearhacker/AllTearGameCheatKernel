@@ -1,0 +1,11 @@
+<?xml version="1" encoding="utf-8"?>
+<config>
+	<game ver="10.4.1.6" code_size="00000000" so="libGameCore.so" crc="0xb769dcf8">
+		<file name="mrpcs.data" gray="100" a="00000000" b="00000000"/>
+		<file name="mrpcs_MVM.data" gray="100" a="00000000" b="00000000"/>
+	</game>
+	<game ver="10.4.1.6" code_size="00000000" so="libGameCore.so" crc="0x77dc3280">
+		<file name="mrpcs.data" gray="100" a="00000000" b="00000000"/>
+		<file name="mrpcs_MVM.data" gray="100" a="00000000" b="00000000"/>
+	</game>
+</config>
