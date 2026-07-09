@@ -80,7 +80,7 @@ int getProcessID(const char *packageName)
 		id = atoi(entry->d_name);
 		if (id != 0)
 		{
-			sprintf(filename, "/proc/%d/cmdline", id);
+			snprintf(filename, sizeof(filename), "/proc/%d/cmdline", id);
 			fp = fopen(filename, "r");
 			if (fp)
 			{
@@ -305,7 +305,7 @@ int getPID(const char *packageName)
 		id = atoi(entry->d_name);
 		if (id != 0)
 		{
-			sprintf(filename, "/proc/%d/cmdline", id);
+			snprintf(filename, sizeof(filename), "/proc/%d/cmdline", id);
 			fp = fopen(filename, "r");
 			if (fp)
 			{
@@ -328,6 +328,7 @@ unsigned long get_module_base(int pid, const char *module_name)
 	FILE *fp;
 	unsigned long addr = 0;
 	char *pch;
+	char *saveptr;
 	char filename[64];
 	char line[1024];
 	snprintf(filename, sizeof(filename), "/proc/%d/maps", pid);
@@ -338,7 +339,7 @@ unsigned long get_module_base(int pid, const char *module_name)
 		{
 			if (strstr(line, module_name))
 			{
-				pch = strtok(line, "-");
+				pch = strtok_r(line, "-", &saveptr);
 				addr = strtoul(pch, NULL, 16);
 				if (addr == 0x8000)
 					addr = 0;
@@ -361,9 +362,9 @@ uintptr_t GetModuleBase(char *name, int index)
             sscanf(name, "%[^:]", dname);
             f++;
         } else {
-            sprintf(dname, "%s", name);
+            snprintf(dname, sizeof(dname), "%s", name);
         }
-        sprintf(fname, "/proc/%d/maps", pid);
+        snprintf(fname, sizeof(fname), "/proc/%d/maps", pid);
         FILE *p = fopen(fname, "r");
         if (p)
         {
@@ -412,7 +413,7 @@ long getbss(const char *name)
 	fp = NULL;
 	char line[1024];
 	char fname[128];
-	sprintf(fname, "/proc/%d/maps", pid);
+	snprintf(fname, sizeof(fname), "/proc/%d/maps", pid);
 	fp = fopen(fname, "r");
 	while (!feof(fp))
 	{
